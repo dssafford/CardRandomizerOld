@@ -14,6 +14,7 @@ var db = require('./db');
 
 
 
+
 // Connect to DB
 //mongoose.connect('mongodb://localhost/meditationtracker');
 

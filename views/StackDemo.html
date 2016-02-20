@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--************************************************************************-->
+<!--* Card Stacks Demo                                                     *-->
+<!--*                                                                      *-->
+<!--* Copyright 2001 by Mike Hall                                          *-->
+<!--* Please see http://www.brainjar.com for terms of use.                 *-->
+<!--************************************************************************-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>BrainJar.com: Card Stacks Demo</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link href="../stylesheets/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../public/javascripts/cards.js"></script>
+    <script type="text/javascript">//<![CDATA[
+
+    var deck, hand, discards;
+
+    window.onload = init;
+
+    function init() {
+
+        deck     = new Stack();
+//        hand     = new Stack();
+//        discards = new Stack();
+
+        deck.makeDeck(1);
+        display();
+    }
+
+    function shuffle() {
+
+        if (deck == null) return;
+
+        deck.shuffle(1);
+        display();
+    }
+//
+//    function deal() {
+//
+//        var i;
+//
+//        if (deck == null) return;
+//
+//        if (deck.cardCount() < 7)
+//            alert("Not enough cards.");
+//        else {
+//            discard();
+//            for (i = 0; i < 7; i++)
+//                hand.addCard(deck.deal());
+//        }
+//
+//        display();
+//    }
+
+//    function discard() {
+//
+//        if (deck == null) return;
+//
+//        discards.combine(hand);
+//        display();
+//    }
+//
+//    function reset() {
+//
+//        if (deck == null) return;
+//
+//        discards.combine(hand);
+//        deck.combine(discards);
+//        display();
+//    }
+
+    function display() {
+
+        var s;
+
+        s = ""
+        for (i = 0; i < deck.cardCount(); i++) {
+            s += deck.cards[i] + "-" + i.toString() + "\n";
+            //alert("card=" + s);
+        }
+        document.forms[0].elements[0].value = s;
+        alert("s=" + s);
+
+//        s = "";
+//        for (i = 0; i < hand.cardCount(); i++)
+//            s += hand.cards[i] + "\n";
+//        document.forms[0].elements[1].value = s;
+//
+//        s = "";
+//        for (i = 0; i < discards.cardCount(); i++)
+//            s += discards.cards[i] + "\n";
+//        document.forms[0].elements[2].value = s;
+    }
+
+    //]]></script>
+</head>
+<body>
+
+<div>
+
+    <h3>Card Stacks Demo</h3>
+
+    <p>
+        <a href="" onclick="shuffle();return false;">Shuffle Deck</a>
+        |
+        <a href="" onclick="reset();return false;">Reset Deck</a>
+    </p>
+
+</div>
+
+<p></p>
+
+<form action="" onsubmit="return false;">
+    <div style="float:left;margin-right:1em;">
+        <b>Deck:</b><br />
+        <textarea rows="52" cols="20"></textarea>
+    </div>
+</form>
+
+</body>
+</html>

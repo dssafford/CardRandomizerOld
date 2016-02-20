@@ -4,11 +4,25 @@ var express = require('express');
 //var entrySchema = require('../schemas/entry');
 //var logUserSchema = require("../schemas/logUser");
 //var cards = require('../public/javascripts/cards.js');
+var deckSchema = require('../schemas/ShuffledDeck');
+var helpers = require('../public/javascripts/helpers.js');
+
+
 
 var router = express.Router();
+var cardOrder = [];
+
+function Wow() {
+  var one = ["one", "two", "three"];
+  var two = ["one", "two", "four"];
+  helpers.compareArrays(one, two);
+
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  Wow();
+
   res.render('index', { title: 'Eat Shot' });
 });
 
@@ -27,7 +41,12 @@ function GenerateList(){
   deck.makeDeck(1);
   deck.shuffle(1);
 
+
   var myString = display();
+
+  // Save Record Here
+  SaveRecord(makeArrayToSave());
+
   return myString;
 }
 
@@ -109,12 +128,28 @@ function display() {
   s = ""
   for (i = 0; i < deck.cardCount(); i++) {
     s += deck.cards[i] + "-" + i.toString() + "\n";
+    cardOrder.push(deck.cards[i] + "-" + i.toString());
   }
   //document.forms[0].elements[0].value = s;
 
   return s;
 
 }
+function makeArrayToSave() {
+
+  var s;
+
+  s = ""
+  for (i = 0; i < deck.cardCount(); i++) {
+    s += deck.cards[i] + "-" + i.toString() + "\n";
+    cardOrder.push(deck.cards[i] + "-" + i.toString());
+  }
+  //document.forms[0].elements[0].value = s;
+
+  return cardOrder;
+
+}
+
 function htmlDisplay() {
 
   var s;
@@ -130,6 +165,32 @@ function htmlDisplay() {
   return s;
 
 }
+
+// Add the record data to database, from POST on form submit
+//router.post('/getCards', function(req, res) {
+  // below outputs full response to browser in json format
+  //res.json(req.body);
+
+function SaveRecord(cardOrder) {
+
+  var record = new deckSchema();
+
+  record.timestamp = Date.now();
+  record.cards = cardOrder;
+  record.comments = "Holy shit, does this work now?";
+
+  record.save(function(err) {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        status: 'failure'
+      });
+    } else {
+      //res.json({status: 'success'});
+      res.redirect('/homeold');
+    }
+  });
+};
 
   ///* GET Home Page */
   //router.get('/homeold', isAuthenticated, function(req, res) {
