@@ -102,6 +102,19 @@ function GenerateList(){
     });
   });
 
+  router.get('/picture', function(req,res) {
+    res.render('picture1', {
+      title: "Doug cool title",
+      dude: "['5_of_spades.png','6_of_spades.png','7_of_spades.png']",
+      body: "<img id='shitimage' src='/images/4_of_spades.png' style='border:2px solid black'></img>"
+    });
+
+    //  res.render('entryinput', {
+    //    title: 'All Doug entrys',
+    //    user: req.user
+
+  });
+
 function display() {
 
   var s;

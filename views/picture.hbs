@@ -1,0 +1,24 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+<img id="myPicture" alt="doug picture">
+<button onclick="add_google_logo();">Show Card</button>
+<script>
+
+    document.getElementById("myPicture").src = "../public/images/2_of_clubs.png";
+
+    function add_google_logo() {
+        var src = "http://google.com/images/logo.gif";
+        show_image("../public/images/2_of_clubs.png", 276,110, "Google Logo");
+    }
+
+
+    function show_image(src, width, height, alt) {
+        var img = document.createElement("img");
+        img.src = src;
+        img.width = width;
+        img.height = height;
+        img.alt = alt;
+        document.body.appendChild(img);
+    }
+
+</script>
