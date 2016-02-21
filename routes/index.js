@@ -9,14 +9,15 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  CompareArrays();
+  var one = [1,2,3,4,5,6];
+  var two = [1,2,4,4,5,7];
+  CompareArrays(one, two);
   res.render('index', { title: 'Eat Shot' });
 });
 
 
-function CompareArrays() {
-  var one = [1,2,3,4,5,6];
-  var two = [1,2,4,4,5,7];
+function CompareArrays(one, two) {
+
 
   for(i=0;i<one.length;i++){
       if(one[i] != two[i]) {
@@ -129,6 +130,8 @@ function GenerateList(){
 
   router.get('/picture', function(req,res) {
     var cardlist = GenerateList();
+    console.log(cardlist.toString());
+
     res.render('picture', {
       title: "Doug cool title",
       dude: cardlist,
