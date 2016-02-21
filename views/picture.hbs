@@ -1,16 +1,42 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
-<img id="myPicture" alt="doug picture">
-<button onclick="add_google_logo();">Show Card</button>
+<div><button onclick="add_google_logo();">Add Google Logo</button></div>
+<img src="/images/back@2x.png" width="225" height="325"  onclick="add_google_logo();">
+{{{body}}}
 <script>
+    var cardCount = 0;
+    var dude = {{{dude}}};
+    //dude = str.replace('&#x27;',"'");
+    var array = dude.split(',');
 
-    document.getElementById("myPicture").src = "../public/images/2_of_clubs.png";
+    console.log("count=" + array.length.toString());
+    var count = 0;
+    function add_google_logo(sourceArray) {
 
-    function add_google_logo() {
+        console.log("cardCount="+ cardCount.toString());
+
+        if(cardCount>=52){
+            return;
+        }
+        //var myarray = ['5_of_spades.png','6_of_spades.png','7_of_spades.png'];
+
+
         var src = "http://google.com/images/logo.gif";
-        show_image("../public/images/2_of_clubs.png", 276,110, "Google Logo");
+        //replace_image('/images/9_of_spades.png', 276,110, "Google Logo");
+        //replace_image('/images/' + myarray[count], 276,110, "Google Logo");
+        replace_image('/images/' + array[count], 276,110, "Google Logo");
+        count++;
+        cardCount++;
     }
 
+    function replace_image(src, width, height, alt) {
+        var img = document.createElement("img");
+        img.src = src;
+        img.width = width;
+        img.height = height;
+        img.alt = alt;
+        document.getElementById("shitimage").src = src;
+    }
 
     function show_image(src, width, height, alt) {
         var img = document.createElement("img");

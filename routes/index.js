@@ -27,7 +27,8 @@ function GenerateList(){
   deck.makeDeck(1);
   deck.shuffle(1);
 
-  var myString = display();
+  var myString = stringDisplay();
+  //var myString = display();
   return myString;
 }
 
@@ -103,9 +104,10 @@ function GenerateList(){
   });
 
   router.get('/picture', function(req,res) {
-    res.render('picture1', {
+    var cardlist = GenerateList();
+    res.render('picture', {
       title: "Doug cool title",
-      dude: "['5_of_spades.png','6_of_spades.png','7_of_spades.png']",
+      dude: cardlist,
       body: "<img id='shitimage' src='/images/4_of_spades.png' style='border:2px solid black'></img>"
     });
 
@@ -125,6 +127,20 @@ function display() {
   }
   //document.forms[0].elements[0].value = s;
 
+  return s;
+
+}
+function stringDisplay() {
+
+  var s;
+
+  s = "'"
+  for (i = 0; i < deck.cardCount(); i++) {
+    s += deck.cards[i] + ",";
+  }
+  //document.forms[0].elements[0].value = s;
+
+  s = s + "'"
   return s;
 
 }
@@ -420,43 +436,43 @@ function cardToString() {
 
   switch (this.rank) {
     case "A" :
-      rank = "Ace";
+      rank = "ace_of_";
       break;
     case "2" :
-      rank = "Two";
+      rank = "2_of_";
       break;
     case "3" :
-      rank = "Three";
+      rank = "3_of_";
       break;
     case "4" :
-      rank = "Four";
+      rank = "4_of_";
       break;
     case "5" :
-      rank = "Five";
+      rank = "5_of_";
       break;
     case "6" :
-      rank = "Six";
+      rank = "6_of_";
       break;
     case "7" :
-      rank = "Seven";
+      rank = "7_of_";
       break;
     case "8" :
-      rank = "Eight";
+      rank = "8_of_";
       break;
     case "9" :
-      rank = "Nine";
+      rank = "9_of_";
       break;
     case "10" :
-      rank = "Ten";
+      rank = "10_of_";
       break;
     case "J" :
-      rank = "Jack"
+      rank = "jack_of_"
       break;
     case "Q" :
-      rank = "Queen"
+      rank = "queen_of_"
       break;
     case "K" :
-      rank = "King"
+      rank = "king_of_"
       break;
     default :
       rank = null;
@@ -465,16 +481,16 @@ function cardToString() {
 
   switch (this.suit) {
     case "C" :
-      suit = "Clubs";
+      suit = "clubs.png";
       break;
     case "D" :
-      suit = "Diamonds"
+      suit = "diamonds.png"
       break;
     case "H" :
-      suit = "Hearts"
+      suit = "hearts.png"
       break;
     case "S" :
-      suit = "Spades"
+      suit = "spades.png"
       break;
     default :
       suit = null;
@@ -484,8 +500,83 @@ function cardToString() {
   if (rank == null || suit == null)
     return "";
 
-  return rank + " of " + suit;
+  //return rank + " of " + suit;
+  return rank + suit;
 }
+
+
+//function cardToString() {
+//
+//  var rank, suit;
+//
+//  switch (this.rank) {
+//    case "A" :
+//      rank = "Ace";
+//      break;
+//    case "2" :
+//      rank = "Two";
+//      break;
+//    case "3" :
+//      rank = "Three";
+//      break;
+//    case "4" :
+//      rank = "Four";
+//      break;
+//    case "5" :
+//      rank = "Five";
+//      break;
+//    case "6" :
+//      rank = "Six";
+//      break;
+//    case "7" :
+//      rank = "Seven";
+//      break;
+//    case "8" :
+//      rank = "Eight";
+//      break;
+//    case "9" :
+//      rank = "Nine";
+//      break;
+//    case "10" :
+//      rank = "Ten";
+//      break;
+//    case "J" :
+//      rank = "Jack"
+//      break;
+//    case "Q" :
+//      rank = "Queen"
+//      break;
+//    case "K" :
+//      rank = "King"
+//      break;
+//    default :
+//      rank = null;
+//      break;
+//  }
+//
+//  switch (this.suit) {
+//    case "C" :
+//      suit = "Clubs";
+//      break;
+//    case "D" :
+//      suit = "Diamonds"
+//      break;
+//    case "H" :
+//      suit = "Hearts"
+//      break;
+//    case "S" :
+//      suit = "Spades"
+//      break;
+//    default :
+//      suit = null;
+//      break;
+//  }
+//
+//  if (rank == null || suit == null)
+//    return "";
+//
+//  return rank + " of " + suit;
+//}
 
 //-----------------------------------------------------------------------------
 // cardCreateNode(): Returns a DIV node which can be used to display the card
