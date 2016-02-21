@@ -76,6 +76,22 @@ module.exports =
         exports.answersArray = answers;
 
         return answers;
+    },
+
+    CompareArrays: function(one, two) {
+    scoresArray = new Array;
+
+    for(i=0;i<one.length;i++){
+        if(one[i] != two[i]) {
+            scoresArray.push(false);
+            console.log("Found not equal on number" + i.toString() + one[i] + " != " + two[i]);
+        } else {
+            scoresArray.push(true);
+        }
+    }
+        return scoresArray;
+
+
     }
 };
 

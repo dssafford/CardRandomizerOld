@@ -1,7 +1,6 @@
 var express = require('express');
 //var passport = require('passport');
 //var Account = require('../schemas/account');
-//var entrySchema = require('../schemas/entry');
 //var logUserSchema = require("../schemas/logUser");
 
 var cards = require('../public/javascripts/cards.js');
@@ -9,116 +8,83 @@ var cards = require('../public/javascripts/cards.js');
 var test = require('../public/javascripts/test.js');
 var helpers = require('../public/javascripts/helpers.js');
 
-var answerSchema = require("../schemas/answer");
+var scoresSchema = require("../Schemas/Scores");
 
 var router = express.Router();
-
-
-//// Let's assume this is the data which comes from the database or somewhere else
-//var databaseName = 'Walter';
-//var databaseSurname = 'Heisenberg';
-//
-//// Use the function from 'helpers.js' in the main file, which is server.js
-//var fullname = helpers.concatenateNames(databaseName, databaseSurname);
-//
-//test.dougTest()
 
 var masterAnswers;
 
 
+    // Routes ////////////////////////////////////////////////////////////
+    /* GET home page. */
+    router.get('/', function(req, res, next) {
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  //var one = [1,2,3,4,5,6];
-  //var two = [1,2,4,4,5,7];
-  //CompareArrays(one, two);
+      res.render('home', { title: 'Eat Shot' });
 
-  res.render('home', { title: 'Eat Shot' });
-
-});
-
-
-function CompareArrays(one, two) {
-
-  for(i=0;i<one.length;i++){
-      if(one[i] != two[i]) {
-        console.log("Found not equal on number" + i.toString() + one[i] + " != " + two[i]);
-      }
-  }
-
-
-}
-
-
-/* GET home page. */
-router.get('/enteranswers', function(req, res, next) {
-  res.render('enteranswers', { title: 'Enter Answers' });
-});
-
-/* GET home page. */
-router.get('/wow', function(req, res, next) {
-    console.log("masterAnswers = " + masterAnswers.toString());
-
-  res.render('index', { mylist: cards.GenerateList(), title: 'you suck' });
-  res.write(cards.GenerateList());
-  res.end();
-});
-
-
-/* GET Answer Entry Page */ 
-router.get('/answer', function(req, res) { 
-    res.render('home', { 
-        user: req.user 
     });
- });
 
-    // Add the record data to database, from POST on form submit
-  router.post('/enteranswers',function(req, res) { 
-    //below outputs full response to browser in json format 
-    //console.log(res.json(req.body)); 
+    /* GET Enter Answers page. */
+    router.get('/enteranswers', function(req, res, next) {
+      res.render('enteranswers', { title: 'Enter Answers' });
+    });
 
-      //console.log("1 =" + req.body.a1);
-      //console.log("2 =" + req.body.a2);
-      //console.log("3 =" + req.body.a3);
-      //console.log("4 =" + req.body.a4);
+    /* GET, debug page. */
+    router.get('/wow', function(req, res, next) {
+        console.log("masterAnswers = " + masterAnswers.toString());
 
-      var testAnswers = helpers.createAnswerArray(req);
-
-      console.log("Answers 1 ="+ answers[0]);
-
-
-      //answers.push(req.body.a1);
-      //answers.push(req.body.a2);
-      //answers.push(req.body.a3);
-      //answers.push(req.body.a4);
-      //
-      //var testAnswers = new Array;
-      //testAnswers.push("hey");
-      //testAnswers.push("shit");
-      //testAnswers.push("head");
-      //testAnswers.push("four")
-
-      CompareArrays(answers, testAnswers);
-
+      //res.render('index', { mylist: cards.GenerateList(), title: 'you suck' });
+      res.write(cards.GenerateList());
       res.end();
+    });
 
-    //     var record = new Answer();  
-    //     record.timestamp = req.body.timestamp; 
-    //     record.user = req.body.user; 
-    //     record.minutes = req.body.minutes; 
-    //     record.comments = req.body.comments;  
-    //     record.save(function(err) { 
-    //     if (err) { 
-    //        console.log(err); 
-    //        res.status(500).json({ 
-    //        status: 'failure' 
-    //     }); 
-    //     } else { 
-    //     res.json({status: 'success'}); 
-    //     res.redirect('/homeold'); 
-    //     } 
-    // }); 
- }); 
+
+    /* GET Answer Entry Page */ 
+    router.get('/answer', function(req, res) { 
+        res.render('home', { 
+            user: req.user 
+        });
+     });
+
+        // Add the record data to database, from POST on form submit
+     router.post('/enteranswers',function(req, res) { 
+        //below outputs full response to browser in json format 
+        //console.log(res.json(req.body)); 
+
+          //console.log("1 =" + req.body.a1);
+          //console.log("2 =" + req.body.a2);
+          //console.log("3 =" + req.body.a3);
+          //console.log("4 =" + req.body.a4);
+         var testAnswers = helpers.createAnswerArray(req);
+
+         //Compare Arrays to find any problems
+         var scoresArray = helpers.CompareArrays(testAnswers, masterAnswers);
+
+         //Save all data to database
+            var record = new scoresSchema();  
+            record.userid = 1; 
+            record.timestamp = Date.now();
+            record.masterList = masterAnswers; 
+            record.answerList = testAnswers;
+            record.scoreList = scoresArray;
+            record.comments = req.body.comments;  
+
+            record.save(function(err) { 
+            if (err) { 
+             console.log(err); 
+             res.status(500).json({ 
+             status: 'failure' 
+            }); 
+            } else { 
+                res.json({status: 'success'}); 
+                res.redirect('/homeold'); 
+            } 
+          }); 
+
+         console.log("Answers 1 ="+ answers[0]);
+         res.end();
+
+
+    }); 
 
 
 //var isAuthenticated = function(req, res, next) {
@@ -443,8 +409,6 @@ router.get('/answer', function(req, res) { 
   //
   //  });
   //});
-
-
 
 //return router;
 module.exports = router;
