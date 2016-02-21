@@ -1,32 +1,35 @@
 <h1 xmlns="http://www.w3.org/1999/html">{{title}}</h1>
 <p>Welcome to {{title}}</p>
-<div><table><th>Number</th><th>Answer</th><th>Number</th><th>Answer</th>
-    <tr><td>1</td><td><input type="text" id="1"></td><td>21</td><td><input type="text" id="21"></td><td>41</td><td><input type="text" id="41"></td></tr>
-    <tr><td>2</td><td><input type="text" id="2"></td><td>22</td><td><input type="text" id="22"></td><td>42</td><td><input type="text" id="42"></td></tr>
-    <tr><td>3</td><td><input type="text" id="3"></td><td>23</td><td><input type="text" id="23"></td><td>43</td><td><input type="text" id="43"></td></tr>
-    <tr><td>4</td><td><input type="text" id="4"></td><td>24</td><td><input type="text" id="24"></td><td>44</td><td><input type="text" id="44"></td></tr>
-    <tr><td>5</td><td><input type="text" id="5"></td><td>25</td><td><input type="text" id="25"></td><td>45</td><td><input type="text" id="45"></td></tr>
-    <tr><td>6</td><td><input type="text" id="6"></td><td>25</td><td><input type="text" id="26"></td><td>46</td><td><input type="text" id="46"></td></tr>
-    <tr><td>7</td><td><input type="text" id="7"></td><td>27</td><td><input type="text" id="27"></td><td>47</td><td><input type="text" id="47"></td></tr>
-    <tr><td>8</td><td><input type="text" id="8"></td><td>28</td><td><input type="text" id="28"></td><td>48</td><td><input type="text" id="48"></td></tr>
-    <tr><td>9</td><td><input type="text" id="9"></td><td>29</td><td><input type="text" id="29"></td><td>49</td><td><input type="text" id="49"></td></tr>
-    <tr><td>10</td><td><input type="text" id="10"></td><td>30</td><td><input type="text" id="30"></td><td>50</td><td><input type="text" id="50"></td></tr>
-    <tr><td>11</td><td><input type="text" id="11"></td><td>31</td><td><input type="text" id="31"></td><td>51</td><td><input type="text" id="51"></td></tr>
-    <tr><td>12</td><td><input type="text" id="12"></td><td>32</td><td><input type="text" id="32"></td><td>52</td><td><input type="text" id="52"></td></tr>
-    <tr><td>13</td><td><input type="text" id="13"></td><td>33</td><td><input type="text" id="33"></td><td></tr>
-    <tr><td>14</td><td><input type="text" id="14"></td><td>34</td><td><input type="text" id="34"></td><td></tr>
-    <tr><td>15</td><td><input type="text" id="15"></td><td>35</td><td><input type="text" id="35"></td><td></tr>
-    <tr><td>16</td><td><input type="text" id="16"></td><td>36</td><td><input type="text" id="36"></td><td></tr>
-    <tr><td>17</td><td><input type="text" id="17"></td><td>37</td><td><input type="text" id="37"></td><td></tr>
-    <tr><td>18</td><td><input type="text" id="18"></td><td>38</td><td><input type="text" id="38"></td><td></tr>
-    <tr><td>19</td><td><input type="text" id="19"></td><td>39</td><td><input type="text" id="39"></td><td></tr>
-    <tr><td>20</td><td><input type="text" id="20"></td><td>40</td><td><input type="text" id="40"></td><td></tr>
+<div>
+    <form action="/answerentry" method="post"><table><th>Number</th><th>Answer</th><th>Number</th><th>Answer</th>
+    <tr><td>1</td><td><input type="text" name="a1" tabindex=1></td><td>21</td><td><input type="text" name="a21" tabindex=21></td><td>41</td><td><input type="text" name="a41" tabindex=41></td></tr>
+    <tr><td>2</td><td><input type="text" name="a2" tabindex=2></td><td>22</td><td><input type="text" name="a22" tabindex=22></td><td>42</td><td><input type="text" name="a42" tabindex=42></td></tr>
+    <tr><td>3</td><td><input type="text" name="a3" tabindex=3></td><td>23</td><td><input type="text" name="a23" tabindex=23></td><td>43</td><td><input type="text" name="a43" tabindex=43></td></tr>
+    <tr><td>4</td><td><input type="text" name="a4" tabindex=4></td><td>24</td><td><input type="text" name="a24" tabindex=24></td><td>44</td><td><input type="text" name="a44" tabindex=44></td></tr>
+    <tr><td>5</td><td><input type="text" name="a5" tabindex=5></td><td>25</td><td><input type="text" name="a25" tabindex=25></td><td>45</td><td><input type="text" name="a45" tabindex=45></td></tr>
+    <tr><td>6</td><td><input type="text" name="a6" tabindex=6></td><td>25</td><td><input type="text" name="a26" tabindex=26></td><td>46</td><td><input type="text" name="a46" tabindex=46></td></tr>
+    <tr><td>7</td><td><input type="text" name="a7" tabindex=7></td><td>27</td><td><input type="text" name="a27" tabindex=27></td><td>47</td><td><input type="text" name="a47" tabindex=47></td></tr>
+    <tr><td>8</td><td><input type="text" name="a8" tabindex=8></td><td>28</td><td><input type="text" name="a28" tabindex=28></td><td>48</td><td><input type="text" name="a48" tabindex=48></td></tr>
+    <tr><td>9</td><td><input type="text" name="a9" tabindex=9></td><td>29</td><td><input type="text" name="a29" tabindex=29></td><td>49</td><td><input type="text" name="a49" tabindex=49></td></tr>
+    <tr><td>10</td><td><input type="text" name="a10" tabindex=10></td><td>30</td><td><input type="text" name="a30" tabindex=30></td><td>50</td><td><input type="text" name="a50" tabindex=50></td></tr>
+    <tr><td>11</td><td><input type="text" name="a11" tabindex=11></td><td>31</td><td><input type="text" name="a31" tabindex=31></td><td>51</td><td><input type="text" name="a51" tabindex=51></td></tr>
+    <tr><td>12</td><td><input type="text" name="a12" tabindex=12></td><td>32</td><td><input type="text" name="a32" tabindex=32></td><td>52</td><td><input type="text" name="a52" tabindex=52></td></tr>
+    <tr><td>13</td><td><input type="text" name="a13" tabindex=13></td><td>33</td><td><input type="text" name="a33" tabindex=33></td><td></tr>
+    <tr><td>14</td><td><input type="text" name="a14" tabindex=14></td><td>34</td><td><input type="text" name="a34" tabindex=34></td><td></tr>
+    <tr><td>15</td><td><input type="text" name="a15" tabindex=15></td><td>35</td><td><input type="text" name="a35" tabindex=35></td><td></tr>
+    <tr><td>16</td><td><input type="text" name="a16" tabindex=16></td><td>36</td><td><input type="text" name="a36" tabindex=36></td><td></tr>
+    <tr><td>17</td><td><input type="text" name="a17" tabindex=17></td><td>37</td><td><input type="text" name="a37" tabindex=37></td><td></tr>
+    <tr><td>18</td><td><input type="text" name="a18" tabindex=18></td><td>38</td><td><input type="text" name="a38" tabindex=38></td><td></tr>
+    <tr><td>19</td><td><input type="text" name="a19" tabindex=19></td><td>39</td><td><input type="text" name="a39" tabindex=39></td><td></tr>
+    <tr><td>20</td><td><input type="text" name="a20" tabindex=20></td><td>40</td><td><input type="text" name="a40" tabindex=40></td><td></tr>
 </table>
+        <div><button type="submit">Go</button></div>
+    </form>
 </div>
-<div><button type="submit">Go</button></div>
+
 
 <!--<div><button onclick="add_google_logo();">Add Google Logo</button></div>-->
-<!--<img src="/images/back@2x.png" width="225" height="325"  onclick="add_google_logo();">-->
+<!--<img src="/images/back@2x.png" wnameth="225" height="325"  onclick="add_google_logo();">-->
 <!--{{{body}}}-->
 <!--<script>-->
     <!--var cardCount = 0;-->
@@ -54,19 +57,19 @@
         <!--cardCount++;-->
     <!--}-->
 
-    <!--function replace_image(src, width, height, alt) {-->
+    <!--function replace_image(src, wnameth, height, alt) {-->
         <!--var img = document.createElement("img");-->
         <!--img.src = src;-->
-        <!--img.width = width;-->
+        <!--img.wnameth = wnameth;-->
         <!--img.height = height;-->
         <!--img.alt = alt;-->
-        <!--document.getElementById("shitimage").src = src;-->
+        <!--document.getElementByname("shitimage").src = src;-->
     <!--}-->
 
-    <!--function show_image(src, width, height, alt) {-->
+    <!--function show_image(src, wnameth, height, alt) {-->
         <!--var img = document.createElement("img");-->
         <!--img.src = src;-->
-        <!--img.width = width;-->
+        <!--img.wnameth = wnameth;-->
         <!--img.height = height;-->
         <!--img.alt = alt;-->
         <!--document.body.appendChild(img);-->

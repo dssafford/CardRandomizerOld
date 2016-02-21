@@ -5,32 +5,45 @@ var express = require('express');
 //var logUserSchema = require("../schemas/logUser");
 //var cards = require('../public/javascripts/cards.js');
 
+var test = require('../public/javascripts/test.js');
+var helpers = require('../public/javascripts/helpers.js');
+
+var answerSchema = require("../schemas/answer");
+
 var router = express.Router();
+
+
+// Let's assume this is the data which comes from the database or somewhere else
+var databaseName = 'Walter';
+var databaseSurname = 'Heisenberg';
+
+// Use the function from 'helpers.js' in the main file, which is server.js
+var fullname = helpers.concatenateNames(databaseName, databaseSurname);
+
+test.dougTest()
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var one = [1,2,3,4,5,6];
-  var two = [1,2,4,4,5,7];
-  CompareArrays(one, two);
-  res.render('index', { title: 'Eat Shot' });
+  //var one = [1,2,3,4,5,6];
+  //var two = [1,2,4,4,5,7];
+  //CompareArrays(one, two);
+
+  res.render('home', { title: 'Eat Shot' });
+
 });
 
 
 function CompareArrays(one, two) {
 
-
   for(i=0;i<one.length;i++){
       if(one[i] != two[i]) {
-        console.log("not equal. one=" + one[i] + " and two=" + two[i]);
+        console.log("Found not equal on number" + i.toString() + one[i] + " != " + two[i]);
       }
   }
 
 
 }
-
-
-
-
 
 
 /* GET home page. */
@@ -44,6 +57,62 @@ router.get('/wow', function(req, res, next) {
   res.write(GenerateList());
   res.end();
 });
+
+
+/* GET Answer Entry Page */ router.get('/answer', function(req, res) { 
+    res.render('home', { 
+        user: req.user 
+    });
+ });
+
+    // Add the record data to database, from POST on form submit
+  router.post('/answerentry',function(req, res) { 
+    //below outputs full response to browser in json format 
+    //console.log(res.json(req.body)); 
+
+      console.log("1 =" + req.body.a1);
+      console.log("2 =" + req.body.a2);
+      console.log("3 =" + req.body.a3);
+      console.log("4 =" + req.body.a4);
+
+      var answers = helpers.createAnswerArray(req);
+
+      //answers.push(req.body.a1);
+      //answers.push(req.body.a2);
+      //answers.push(req.body.a3);
+      //answers.push(req.body.a4);
+      //
+      //var testAnswers = new Array;
+      //testAnswers.push("hey");
+      //testAnswers.push("shit");
+      //testAnswers.push("head");
+      //testAnswers.push("four")
+
+      CompareArrays(answers, testAnswers);
+
+      res.end();
+
+    //     var record = new Answer();  
+    //     record.timestamp = req.body.timestamp; 
+    //     record.user = req.body.user; 
+    //     record.minutes = req.body.minutes; 
+    //     record.comments = req.body.comments;  
+    //     record.save(function(err) { 
+    //     if (err) { 
+    //        console.log(err); 
+    //        res.status(500).json({ 
+    //        status: 'failure' 
+    //     }); 
+    //     } else { 
+    //     res.json({status: 'success'}); 
+    //     res.redirect('/homeold'); 
+    //     } 
+    // }); 
+ }); 
+
+
+
+
 
 var deck;
 
@@ -148,7 +217,7 @@ function display() {
 
   var s;
 
-  s = ""
+  s = "";
   for (i = 0; i < deck.cardCount(); i++) {
     s += deck.cards[i] + "-" + i.toString() + "\n";
   }
@@ -161,13 +230,13 @@ function stringDisplay() {
 
   var s;
 
-  s = "'"
+  s = "'";
   for (i = 0; i < deck.cardCount(); i++) {
     s += deck.cards[i] + ",";
   }
   //document.forms[0].elements[0].value = s;
 
-  s = s + "'"
+  s = s + "'";
   return s;
 
 }
@@ -176,13 +245,13 @@ function htmlDisplay() {
   var s;
   var tableStart = "<table><th>dude</th><td>";
 
-  s = ""
+  s = "";
   for (i = 0; i < deck.cardCount(); i++) {
     s += deck.cards[i] + "-" + i.toString() + "</td><td>";
   }
   //document.forms[0].elements[0].value = s;
 
-  s = s + "</td></table>"
+  s = s + "</td></table>";
   return s;
 
 }
@@ -492,13 +561,13 @@ function cardToString() {
       rank = "10_of_";
       break;
     case "J" :
-      rank = "jack_of_"
+      rank = "jack_of_";
       break;
     case "Q" :
-      rank = "queen_of_"
+      rank = "queen_of_";
       break;
     case "K" :
-      rank = "king_of_"
+      rank = "king_of_";
       break;
     default :
       rank = null;
@@ -510,13 +579,13 @@ function cardToString() {
       suit = "clubs.png";
       break;
     case "D" :
-      suit = "diamonds.png"
+      suit = "diamonds.png";
       break;
     case "H" :
-      suit = "hearts.png"
+      suit = "hearts.png";
       break;
     case "S" :
-      suit = "spades.png"
+      suit = "spades.png";
       break;
     default :
       suit = null;
@@ -542,7 +611,7 @@ function Stack() {
 
   // Create an empty array of cards.
 
-  this.cards = new Array();
+  this.cards = [];
 
   this.makeDeck  = stackMakeDeck;
   this.shuffle   = stackShuffle;
@@ -559,8 +628,8 @@ function Stack() {
 
 function stackMakeDeck(n) {
 
-  var ranks = new Array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K");
-  var suits = new Array("C", "D", "H", "S");
+  var ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+  var suits = ["C", "D", "H", "S"];
   var i, j, k;
   var m;
 
@@ -616,7 +685,7 @@ function stackAddCard(card) {
 function stackCombine(stack) {
 
   this.cards = this.cards.concat(stack.cards);
-  stack.cards = new Array();
+  stack.cards = [];
 }
 
 //-----------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 var app = require('./app');
-var debug = require('debug')('passport-local-express4:server');
+//var debug = require('debug')('passport-local-express4:server');
 var http = require('http');
 
 
