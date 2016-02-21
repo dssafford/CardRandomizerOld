@@ -3,7 +3,8 @@ var express = require('express');
 //var Account = require('../schemas/account');
 //var entrySchema = require('../schemas/entry');
 //var logUserSchema = require("../schemas/logUser");
-//var cards = require('../public/javascripts/cards.js');
+
+var cards = require('../public/javascripts/cards.js');
 
 var test = require('../public/javascripts/test.js');
 var helpers = require('../public/javascripts/helpers.js');
@@ -13,14 +14,17 @@ var answerSchema = require("../schemas/answer");
 var router = express.Router();
 
 
-// Let's assume this is the data which comes from the database or somewhere else
-var databaseName = 'Walter';
-var databaseSurname = 'Heisenberg';
+//// Let's assume this is the data which comes from the database or somewhere else
+//var databaseName = 'Walter';
+//var databaseSurname = 'Heisenberg';
+//
+//// Use the function from 'helpers.js' in the main file, which is server.js
+//var fullname = helpers.concatenateNames(databaseName, databaseSurname);
+//
+//test.dougTest()
 
-// Use the function from 'helpers.js' in the main file, which is server.js
-var fullname = helpers.concatenateNames(databaseName, databaseSurname);
+var masterAnswers;
 
-test.dougTest()
 
 
 /* GET home page. */
@@ -47,35 +51,41 @@ function CompareArrays(one, two) {
 
 
 /* GET home page. */
-router.get('/answer', function(req, res, next) {
+router.get('/enteranswers', function(req, res, next) {
   res.render('enteranswers', { title: 'Enter Answers' });
 });
 
 /* GET home page. */
 router.get('/wow', function(req, res, next) {
-  //res.render('index', { mylist: GenerateList(), title: 'you suck' });
-  res.write(GenerateList());
+    console.log("masterAnswers = " + masterAnswers.toString());
+
+  res.render('index', { mylist: cards.GenerateList(), title: 'you suck' });
+  res.write(cards.GenerateList());
   res.end();
 });
 
 
-/* GET Answer Entry Page */ router.get('/answer', function(req, res) { 
+/* GET Answer Entry Page */ 
+router.get('/answer', function(req, res) { 
     res.render('home', { 
         user: req.user 
     });
  });
 
     // Add the record data to database, from POST on form submit
-  router.post('/answerentry',function(req, res) { 
+  router.post('/enteranswers',function(req, res) { 
     //below outputs full response to browser in json format 
     //console.log(res.json(req.body)); 
 
-      console.log("1 =" + req.body.a1);
-      console.log("2 =" + req.body.a2);
-      console.log("3 =" + req.body.a3);
-      console.log("4 =" + req.body.a4);
+      //console.log("1 =" + req.body.a1);
+      //console.log("2 =" + req.body.a2);
+      //console.log("3 =" + req.body.a3);
+      //console.log("4 =" + req.body.a4);
 
-      var answers = helpers.createAnswerArray(req);
+      var testAnswers = helpers.createAnswerArray(req);
+
+      console.log("Answers 1 ="+ answers[0]);
+
 
       //answers.push(req.body.a1);
       //answers.push(req.body.a2);
@@ -110,21 +120,6 @@ router.get('/wow', function(req, res, next) {
     // }); 
  }); 
 
-
-
-
-
-var deck;
-
-function GenerateList(){
-  deck     = new Stack();
-  deck.makeDeck(1);
-  deck.shuffle(1);
-
-  var myString = stringDisplay();
-  //var myString = display();
-  return myString;
-}
 
 //var isAuthenticated = function(req, res, next) {
 //  // if user is authenticated in the session, call the next() to call the next request handler
@@ -198,13 +193,16 @@ function GenerateList(){
   });
 
   router.get('/picture', function(req,res) {
-    var cardlist = GenerateList();
-    console.log(cardlist.toString());
+    var cardlist = cards.GenerateList();
+      masterAnswers=cardlist.split(',');
+
+
+    console.log("CardList=" + cardlist.toString());
 
     res.render('picture', {
       title: "Doug cool title",
       dude: cardlist,
-      body: "<img id='shitimage' src='/images/4_of_spades.png' style='border:2px solid black'></img>"
+      body: "<img id='shitimage' src='' style='border:2px solid black'></img>"
     });
 
     //  res.render('entryinput', {
@@ -213,48 +211,6 @@ function GenerateList(){
 
   });
 
-function display() {
-
-  var s;
-
-  s = "";
-  for (i = 0; i < deck.cardCount(); i++) {
-    s += deck.cards[i] + "-" + i.toString() + "\n";
-  }
-  //document.forms[0].elements[0].value = s;
-
-  return s;
-
-}
-function stringDisplay() {
-
-  var s;
-
-  s = "'";
-  for (i = 0; i < deck.cardCount(); i++) {
-    s += deck.cards[i] + ",";
-  }
-  //document.forms[0].elements[0].value = s;
-
-  s = s + "'";
-  return s;
-
-}
-function htmlDisplay() {
-
-  var s;
-  var tableStart = "<table><th>dude</th><td>";
-
-  s = "";
-  for (i = 0; i < deck.cardCount(); i++) {
-    s += deck.cards[i] + "-" + i.toString() + "</td><td>";
-  }
-  //document.forms[0].elements[0].value = s;
-
-  s = s + "</td></table>";
-  return s;
-
-}
 
   ///* GET Home Page */
   //router.get('/homeold', isAuthenticated, function(req, res) {
@@ -488,214 +444,6 @@ function htmlDisplay() {
   //  });
   //});
 
-/**
- * Created by Doug on 2/19/16.
- */
-
-
-/******************************************************************************
- * Playing Card Objects                                                        *
- *                                                                             *
- * Do not remove this notice.                                                  *
- *                                                                             *
- * Copyright 2001 by Mike Hall                                                 *
- * Please see http://www.brainjar.com for terms of use.                        *
- ******************************************************************************/
-
-//=============================================================================
-// Card Object
-//
-// Note: Requires cards.css for display.
-//=============================================================================
-
-//-----------------------------------------------------------------------------
-// Card constructor function.
-//-----------------------------------------------------------------------------
-
-function Card(rank, suit) {
-
-  this.rank = rank;
-  this.suit = suit;
-
-  this.toString   = cardToString;
-}
-
-//-----------------------------------------------------------------------------
-// cardToString(): Returns the name of a card (including rank and suit) as a
-// text string.
-//-----------------------------------------------------------------------------
-
-function cardToString() {
-
-  var rank, suit;
-
-  switch (this.rank) {
-    case "A" :
-      rank = "ace_of_";
-      break;
-    case "2" :
-      rank = "2_of_";
-      break;
-    case "3" :
-      rank = "3_of_";
-      break;
-    case "4" :
-      rank = "4_of_";
-      break;
-    case "5" :
-      rank = "5_of_";
-      break;
-    case "6" :
-      rank = "6_of_";
-      break;
-    case "7" :
-      rank = "7_of_";
-      break;
-    case "8" :
-      rank = "8_of_";
-      break;
-    case "9" :
-      rank = "9_of_";
-      break;
-    case "10" :
-      rank = "10_of_";
-      break;
-    case "J" :
-      rank = "jack_of_";
-      break;
-    case "Q" :
-      rank = "queen_of_";
-      break;
-    case "K" :
-      rank = "king_of_";
-      break;
-    default :
-      rank = null;
-      break;
-  }
-
-  switch (this.suit) {
-    case "C" :
-      suit = "clubs.png";
-      break;
-    case "D" :
-      suit = "diamonds.png";
-      break;
-    case "H" :
-      suit = "hearts.png";
-      break;
-    case "S" :
-      suit = "spades.png";
-      break;
-    default :
-      suit = null;
-      break;
-  }
-
-  if (rank == null || suit == null)
-    return "";
-
-  //return rank + " of " + suit;
-  return rank + suit;
-}
-
-//=============================================================================
-// Stack Object
-//=============================================================================
-
-//-----------------------------------------------------------------------------
-// Stack constructor function.
-//-----------------------------------------------------------------------------
-
-function Stack() {
-
-  // Create an empty array of cards.
-
-  this.cards = [];
-
-  this.makeDeck  = stackMakeDeck;
-  this.shuffle   = stackShuffle;
-  //this.deal      = stackDeal;
-  //this.draw      = stackDraw;
-  this.addCard   = stackAddCard;
-  this.combine   = stackCombine;
-  this.cardCount = stackCardCount;
-}
-
-//-----------------------------------------------------------------------------
-// stackMakeDeck(n): Initializes a stack using 'n' packs of cards.
-//-----------------------------------------------------------------------------
-
-function stackMakeDeck(n) {
-
-  var ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-  var suits = ["C", "D", "H", "S"];
-  var i, j, k;
-  var m;
-
-  m = ranks.length * suits.length;
-
-  // Set array of cards.
-
-  this.cards = new Array(n * m);
-
-  // Fill the array with 'n' packs of cards.
-
-  for (i = 0; i < n; i++)
-    for (j = 0; j < suits.length; j++)
-      for (k = 0; k < ranks.length; k++)
-        this.cards[i * m + j * ranks.length + k] = new Card(ranks[k], suits[j]);
-}
-
-//-----------------------------------------------------------------------------
-// stackShuffle(n): Shuffles a stack of cards 'n' times.
-//-----------------------------------------------------------------------------
-
-function stackShuffle(n) {
-  //alert("n=" + n.toString())
-  var i, j, k;
-
-  var temp;
-  // Shuffle the stack 'n' times.
-
-  for (i = 0; i < n; i++)
-    for (j = 0; j < this.cards.length; j++) {
-      k = Math.floor(Math.random() * this.cards.length);
-      temp = this.cards[j];
-      this.cards[j] = this.cards[k];
-      this.cards[k] = temp;
-    }
-  //alert("temp=" + temp.toString())
-}
-
-//-----------------------------------------------------------------------------
-// stackAdd(card): Adds the given card to the stack.
-//-----------------------------------------------------------------------------
-
-function stackAddCard(card) {
-
-  this.cards.push(card);
-}
-
-//-----------------------------------------------------------------------------
-// stackCombine(stack): Adds the cards in the given stack to the current one.
-// The given stack is emptied.
-//-----------------------------------------------------------------------------
-
-function stackCombine(stack) {
-
-  this.cards = this.cards.concat(stack.cards);
-  stack.cards = [];
-}
-
-//-----------------------------------------------------------------------------
-// stackCardCount(): Returns the number of cards currently in the stack.
-//-----------------------------------------------------------------------------
-
-function stackCardCount() {
-
-  return this.cards.length;
-}
 
 
 //return router;
