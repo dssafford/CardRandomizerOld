@@ -42,3 +42,17 @@ module.exports = {
 		"comments": "Why is this here"
 	},
 };
+
+module.exports = {
+	"1": {
+		"card": "Ace of Diamonds",
+		"short":"ace_of_diamonds",
+		"person" : "",
+		"action" : ""
+		"comments": ""
+	},
+	"2": {
+
+	}
+
+};
